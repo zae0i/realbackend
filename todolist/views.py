@@ -28,3 +28,9 @@ def update(request, todo_id):
         todo_item.save()
         return redirect('work')
     return render(request, 'update.html', {'todo_item': todo_item})
+def delete(request, todo_id):
+    todo_item = get_object_or_404(TodoItem, id=todo_id)
+    if request.method == 'POST':
+        todo_item.delete()
+        return redirect('work')
+    return render(request, 'delete.html', {'todo_item': todo_item})
