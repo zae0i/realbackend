@@ -18,3 +18,13 @@ def work(request, todo_id=None):
         return redirect('work_details', todo_id=TodoItem.objects.latest('id').id)  # 생성된 항목의 ID로 리다이렉트
     else:  # GET 요청일 때
         return render(request, 'work.html')
+def update(request, todo_id):
+    todo_item = get_object_or_404(TodoItem, id=todo_id)
+    if request.method == 'POST':
+        title = request.POST.get('title', '')
+        description = request.POST.get('description', '')
+        todo_item.title = title
+        todo_item.description = description
+        todo_item.save()
+        return redirect('work')
+    return render(request, 'update.html', {'todo_item': todo_item})
